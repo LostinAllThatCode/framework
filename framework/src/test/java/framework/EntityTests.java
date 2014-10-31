@@ -33,9 +33,11 @@ public class EntityTests {
 	@Test
 	public void EntityManagerTest(){
 		EntityManager man = new EntityManager();
-		for (int i=1; i < 10; i++){
+		for (int i=1; i <= 10; i++){
 			man.addEntity(createBox(false));
 		}
+
+		
 		EntityRenderSystem entityRenderer = new EntityRenderSystem();
 
 		try {
@@ -66,7 +68,6 @@ public class EntityTests {
 		Entity e = new Entity();
 		PositionComponent p = new PositionComponent();
 		p.x = (float) rng.nextInt(800)+1; p.y = (float) rng.nextInt(600)+1;
-		System.out.println("Entity ("+e.id+") spawned at "+p.x+","+p.y);
 		e.addComponent(p);
 		RotationComponent r = new RotationComponent();
 		r.rotation = (float) Math.random();
@@ -83,10 +84,9 @@ public class EntityTests {
 		Box e = new Box();
 		PositionComponent p = new PositionComponent();
 		p.x = (float) rng.nextInt(800)+1; p.y = (float) rng.nextInt(600)+1;
-		System.out.println("Entity ("+e.id+") spawned at "+p.x+","+p.y);
 		e.addComponent(p);
 		RotationComponent r = new RotationComponent();
-		r.rotation = (float) Math.random();
+		r.rotation = (float) rng.nextInt(360)+1;
 		e.addComponent(r);
 		DisplayComponent d = new DisplayComponent();
 		d.x = p.x; d.y = p.y; d.rotation = r.rotation;

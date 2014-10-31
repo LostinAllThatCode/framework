@@ -27,6 +27,7 @@ public class EntityRenderSystem {
 				//OPENGL RENDERING CALL
 				glPushMatrix();
 				glTranslatef(display.x, display.y, 0);
+				glRotatef(display.rotation, 0, 0, 1);
 				glColor3f(1, 1, 1);
 				glBegin(GL_QUADS);
 					glVertex2f(0, 0);

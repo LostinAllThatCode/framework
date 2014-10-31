@@ -16,6 +16,7 @@ public class EntityManager {
 	
 	public void removeEntity(Entity e){
 		entities.remove(e);
+		System.out.println(e.id + " removed");
 	}
 	
 	public int getEntityCount(){

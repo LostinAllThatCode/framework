@@ -8,11 +8,11 @@ public class Entity {
 	private static int EntityCounter;
 	
 	private HashMap<Class<?>, Component> components = new HashMap<Class<?>, Component>();
-
+	
 	public int id;
 	
 	public Entity(){
-		id = ++Entity.EntityCounter;
+		id = ++EntityCounter;
 	}
 	
 	public void addComponent(Component c){
