@@ -1,40 +1,63 @@
 package org.gdesign.game.engine.framework.core;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
-import org.gdesign.game.engine.framework.core.components.Component;
+import org.gdesign.game.engine.framework.core.components.BaseComponent;
 
 public class Entity {
-	private static int EntityCounter;
+	private static int INDEX;
 	
-	private HashMap<Class<?>, Component> components = new HashMap<Class<?>, Component>();
+	private ArrayList<BaseComponent> components = new ArrayList<BaseComponent>();
 	
 	public int id;
 	
 	public Entity(){
-		id = ++EntityCounter;
+		id = ++INDEX;
 	}
 	
-	public void addComponent(Component c){
-		components.put(c.getClass(), c);
+	
+	public void addComponent(BaseComponent c){
+		components.add(c);
 	}
 	
-	public void removeComponent(Component c){
+	public void removeComponent(BaseComponent c){
 		components.remove(c);
 	}
-	
-	public Component getComponent(Class<?> clazz){
-		return components.get(clazz);
+
+	public void removeComponent(Class<? extends BaseComponent> type){
+		components.remove(this.getComponent(type));
 	}
 	
-	public boolean hasComponents(Class<?>... clazz){
-		for (int i=0; i<=clazz.length-1;i++){
-			if (components.get(clazz) == null) return false;
+	public <T extends BaseComponent> T getComponent(Class<T> type){
+		for (BaseComponent c : components){
+			if (c.getClass().equals(type)) return type.cast(c);
 		}
-		return true;		
+		throw new NullPointerException("BaseComponent["+type.getSimpleName()+"] is not component of entity with id: "+this.id+"");
+	}
+
+	public ArrayList<BaseComponent> getComponentList(ArrayList<Class<? extends BaseComponent>> req){
+		ArrayList<BaseComponent> list = new ArrayList<BaseComponent>();
+		for (Class<? extends BaseComponent> cl : req){
+			BaseComponent c = this.getComponent(cl);
+			if (c == null) return null;
+			list.add(c);
+		}
+		return list;
 	}
 	
+	public boolean hasComponent(ArrayList<Class<? extends BaseComponent>> list){
+		for (Class<? extends BaseComponent> clazz : list){
+			if (getComponent(clazz) == null) return false;
+		}
+		return true;	
+	}
+
 	public int getComponentCount(){
 		return components.size();
+	}
+	
+	@Override
+	public String toString() {
+		return super.getClass() + "[ID: "+this.id+",COMPONENTS:"+components.size()+"]";
 	}
 }
