@@ -7,12 +7,19 @@ import org.gdesign.game.engine.framework.core.components.BaseComponent;
 public class Entity {
 	private static int INDEX;
 	
-	private ArrayList<BaseComponent> components = new ArrayList<BaseComponent>();
-	
+	private ArrayList<BaseComponent> components;
+	private World world;
+
 	public int id;
 	
-	public Entity(){
-		id = ++INDEX;
+	public Entity(World world){
+		this.id = ++INDEX;
+		this.world = world;
+		this.components = new ArrayList<BaseComponent>();
+	}
+	
+	public void addToWorld(){
+		world.addEntity(this);
 	}
 	
 	public Entity addComponent(BaseComponent c){
@@ -30,11 +37,11 @@ public class Entity {
 		return this;
 	}
 	
-	public <T extends BaseComponent> T getComponent(Class<T> type) throws NullPointerException{
+	public <T extends BaseComponent> T getComponent(Class<T> type){
 		for (BaseComponent c : components){
 			if (c.getClass().equals(type)) return type.cast(c);
 		}
-		throw new NullPointerException("BaseComponent["+type.getSimpleName()+"] is not component of entity with id: "+this.id+"");
+		return null;
 	}
 
 	public ArrayList<BaseComponent> getComponentList(ArrayList<Class<? extends BaseComponent>> req){

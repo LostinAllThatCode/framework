@@ -8,31 +8,48 @@ public class World {
 
 	public float m_gravity = 9.8f;
 	
-	
 	private float delta=0f;
 	private EntityManager entityManager;
 	
-	private ArrayList<Entity> entities;
+	private ArrayList<Entity> added,changed,removed,enable,disable;
 	private ArrayList<BaseSystem> systems;
 	
 	public World(){
-		entityManager = new EntityManager();
-		entities = new ArrayList<Entity>();
-		systems = new ArrayList<BaseSystem>();
+		this(9.8f);
 	}
 	
-	public World(float m_gravity){
-		super();
-		this.m_gravity = m_gravity;
+	public World(float gravity){
+		this.m_gravity = gravity;
+		this.entityManager = new EntityManager();
+		this.added = new ArrayList<Entity>();
+		this.changed = new ArrayList<Entity>();
+		this.removed = new ArrayList<Entity>();
+		this.enable = new ArrayList<Entity>();
+		this.disable = new ArrayList<Entity>();
+		this.systems = new ArrayList<BaseSystem>();
 	}
 	
 	public void addEntity(Entity e){
-		this.entities.add(e);
+		this.added.add(e);
+	}
+	
+	public void changedEntity(Entity e){
+		this.changed.add(e);
 	}
 	
 	public void removeEntity(Entity e){
-		this.entities.remove(e);
+		this.removed.add(e);
 	}
+	
+	public void enableEntity(Entity e){
+		this.disable.add(e);
+	}
+	
+	public void disableEntity(Entity e){
+		this.enable.add(e);
+	}	
+	
+
 	
 	public EntityManager getEntityManager(){
 		return entityManager;
@@ -53,8 +70,21 @@ public class World {
     
     public void process(){
     	for (BaseSystem system : systems) {
+    		for (Entity entity : added) system.added(entity);
+    		for (Entity entity : removed) system.removed(entity);
+    		//for (Entity entity : deleted) system.addedEntity(entity);
+    	}
+    	
+    	clean();
+    	
+    	for (BaseSystem system : systems) {
     		system.process();
     	}
+    }
+    
+    public void clean(){
+    	added.clear();
+    	removed.clear();
     }
 	
 	public float getDelta() {
