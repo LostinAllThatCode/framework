@@ -30,7 +30,7 @@ public class Entity {
 		return this;
 	}
 	
-	public <T extends BaseComponent> T getComponent(Class<T> type){
+	public <T extends BaseComponent> T getComponent(Class<T> type) throws NullPointerException{
 		for (BaseComponent c : components){
 			if (c.getClass().equals(type)) return type.cast(c);
 		}
