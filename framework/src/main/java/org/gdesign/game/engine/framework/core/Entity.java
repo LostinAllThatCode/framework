@@ -15,17 +15,19 @@ public class Entity {
 		id = ++INDEX;
 	}
 	
-	
-	public void addComponent(BaseComponent c){
+	public Entity addComponent(BaseComponent c){
 		components.add(c);
+		return this;
 	}
 	
-	public void removeComponent(BaseComponent c){
+	public Entity removeComponent(BaseComponent c){
 		components.remove(c);
+		return this;
 	}
 
-	public void removeComponent(Class<? extends BaseComponent> type){
+	public Entity removeComponent(Class<? extends BaseComponent> type){
 		components.remove(this.getComponent(type));
+		return this;
 	}
 	
 	public <T extends BaseComponent> T getComponent(Class<T> type){

@@ -1,11 +1,29 @@
 package org.gdesign.game.engine.framework.systems;
 
+import java.util.ArrayList;
+
 import org.gdesign.game.engine.framework.core.Entity;
-import org.gdesign.game.engine.framework.core.components.PositionComponent;
-import org.gdesign.game.engine.framework.core.components.VelocityComponent;
 
 public class EntityMoveSystem extends BaseSystem{
-	
+
+	@Override
+	public void begin() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void processEntities(ArrayList<Entity> entities) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void end() {
+		// TODO Auto-generated method stub
+		
+	}
+	/*
 	private PositionComponent position;
 	private VelocityComponent velocity;
 	
@@ -30,8 +48,6 @@ public class EntityMoveSystem extends BaseSystem{
 			position.y = dY;
 		}
 		position.x = dX;
-		
-		
-
 	}
+	*/
 }
