@@ -1,6 +1,8 @@
 package org.gdesign.game.engine.framework.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 import org.gdesign.game.engine.framework.systems.BaseSystem;
 
@@ -11,8 +13,9 @@ public class World {
 	private float delta=0f;
 	private EntityManager entityManager;
 	
-	private ArrayList<Entity> added,changed,removed,enable,disable;
+	private HashMap<Integer,Entity> added,changed,removed,enable,disable;
 	private ArrayList<BaseSystem> systems;
+	private ArrayList<Manager> managers;
 	
 	public World(){
 		this(9.8f);
@@ -20,36 +23,37 @@ public class World {
 	
 	public World(float gravity){
 		this.m_gravity = gravity;
-		this.entityManager = new EntityManager();
-		this.added = new ArrayList<Entity>();
-		this.changed = new ArrayList<Entity>();
-		this.removed = new ArrayList<Entity>();
-		this.enable = new ArrayList<Entity>();
-		this.disable = new ArrayList<Entity>();
+		this.added = new HashMap<Integer, Entity>();
+		this.changed = new HashMap<Integer, Entity>();
+		this.removed = new HashMap<Integer, Entity>();
+		this.enable = new HashMap<Integer, Entity>();
+		this.disable = new HashMap<Integer, Entity>();
+		
 		this.systems = new ArrayList<BaseSystem>();
+		this.managers = new ArrayList<Manager>();
+		this.managers.add(entityManager = new EntityManager());
 	}
 	
 	public void addEntity(Entity e){
-		this.added.add(e);
+		this.added.put(e.id,e);
 	}
 	
 	public void changedEntity(Entity e){
-		this.changed.add(e);
+		this.changed.put(e.id,e);
 	}
 	
 	public void removeEntity(Entity e){
-		this.removed.add(e);
+		this.removed.put(e.id,e);
+		System.out.println("Removing entity: " + e);
 	}
 	
 	public void enableEntity(Entity e){
-		this.disable.add(e);
+		this.disable.put(e.id,e);;
 	}
 	
 	public void disableEntity(Entity e){
-		this.enable.add(e);
+		this.enable.put(e.id,e);
 	}	
-	
-
 	
 	public EntityManager getEntityManager(){
 		return entityManager;
@@ -69,22 +73,35 @@ public class World {
     }
     
     public void process(){
-    	for (BaseSystem system : systems) {
-    		for (Entity entity : added) system.added(entity);
-    		for (Entity entity : removed) system.removed(entity);
-    		//for (Entity entity : deleted) system.addedEntity(entity);
-    	}
-    	
-    	clean();
-    	
+    	updateObservers();
     	for (BaseSystem system : systems) {
     		system.process();
     	}
     }
     
-    public void clean(){
+    public Collection<Entity> getEntities(){
+    	return entityManager.getEntities();
+    }
+    
+    private void updateObservers(){
+    	for (IEntityObserver observer : systems) {
+    		if (!added.isEmpty()) 	for (Entity entity : added.values()) observer.added(entity);
+    		if (!removed.isEmpty()) for (Entity entity : removed.values()) observer.removed(entity);
+    		if (!changed.isEmpty()) for (Entity entity : changed.values()) observer.changed(entity);
+    	}
+    	
+    	for (IEntityObserver observer : managers) {
+    		if (!added.isEmpty()) 	for (Entity entity : added.values()) observer.added(entity);
+    		if (!removed.isEmpty()) for (Entity entity : removed.values()) observer.removed(entity);
+    		if (!changed.isEmpty()) for (Entity entity : changed.values()) observer.changed(entity);
+    	}
+    	clean();
+    }
+    
+    private void clean(){
     	added.clear();
     	removed.clear();
+    	changed.clear();
     }
 	
 	public float getDelta() {

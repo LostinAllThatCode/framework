@@ -1,30 +1,62 @@
 package org.gdesign.game.engine.framework.core;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
-public class EntityManager {
+public class EntityManager extends Manager{
 	
-	private ArrayList<Entity> entities;
+	private int created,removed;
+	
+	private HashMap<Integer,Entity> entities;
 		
 	public EntityManager() {
-		entities = new ArrayList<Entity>();
+		entities = new HashMap<Integer, Entity>();
+	}
+		
+	public Collection<Entity> getEntities(){
+		return entities.values();
 	}
 	
-	public void addEntity(Entity e){
-		entities.add(e);
-	}
-	
-	public void removeEntity(Entity e){
-		entities.remove(e);
-		System.out.println(e.id + " removed");
-	}
-	
-	public int getEntityCount(){
+	public int getActiveCount(){
 		return entities.size();
 	}
 	
-	public ArrayList<Entity> getEntities(){
-		return entities;
+	public int getCreatedCount(){
+		return created;
+	}
+	
+	public int getRemovedCount(){
+		return removed;
+	}
+	
+	
+	@Override
+	public void added(Entity e) {
+		created++;
+		entities.put(e.id,e);
+	}
+	@Override
+	public void removed(Entity e) {
+		removed++;
+		entities.remove(e.id);	
+	}
+
+	@Override
+	public void changed(Entity e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enabled(Entity e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void disabled(Entity e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

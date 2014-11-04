@@ -1,6 +1,8 @@
 package org.gdesign.game.engine.framework.systems;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 import org.gdesign.game.engine.framework.core.Entity;
 import org.gdesign.game.engine.framework.core.IEntityObserver;
@@ -10,12 +12,11 @@ import org.gdesign.game.engine.framework.core.components.BaseComponent;
 
 public abstract class BaseSystem implements IEntityObserver{
 	protected World world;
-	protected ArrayList<Entity> entities,disabled;
+	protected HashMap<Integer,Entity> entities;
 	protected ArrayList<Class<? extends BaseComponent>> scope;
 	
 	public BaseSystem(){
-		entities = new ArrayList<Entity>();
-		disabled = new ArrayList<Entity>();
+		entities = new HashMap<Integer, Entity>();
 		scope = new ArrayList<Class<? extends BaseComponent>>();
 	}
 	
@@ -31,33 +32,31 @@ public abstract class BaseSystem implements IEntityObserver{
 	
 	public void process(){
 		begin();
-		processEntities(entities);
+		processEntities(entities.values());
 		end();
 	}
 	
 	public abstract void begin();
-	public abstract void processEntities(ArrayList<Entity> entities);
+	public abstract void processEntities(Collection<Entity> collection);
 	public abstract void end();
 	
 	public void added(Entity e) {
-		if (e.getComponentList(scope) != null) entities.add(e);
+		if (e.getComponentList(scope) != null) entities.put(e.id,e);
 	}
 	
 	public void changed(Entity e) {
-		if (e.getComponentList(scope) != null) {
-			entities.remove(e);
-		}
+		if (e.getComponentList(scope) == null) entities.remove(e.id);
 	}
 	
 	public void removed(Entity e) {
-		entities.remove(e);
+		entities.remove(e.id);
 	}
 	
 	public void disabled(Entity e) {
-		entities.remove(e);
+		entities.remove(e.id);
 	}
 	
 	public void enabled(Entity e) {
-		entities.add(e);
+		if (e.getComponentList(scope) != null) entities.put(e.id,e);
 	}
 }

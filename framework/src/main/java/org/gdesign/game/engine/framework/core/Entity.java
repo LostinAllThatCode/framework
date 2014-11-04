@@ -29,6 +29,7 @@ public class Entity {
 	
 	public Entity removeComponent(BaseComponent c){
 		components.remove(c);
+		world.changedEntity(this);
 		return this;
 	}
 
@@ -67,6 +68,6 @@ public class Entity {
 	
 	@Override
 	public String toString() {
-		return super.getClass() + "[ID: "+this.id+",COMPONENTS:"+components.size()+"]";
+		return "[Type:"+ super.getClass().getSimpleName() + " ,ID:"+this.id+", COMPONENTS:"+components.size()+"]";
 	}
 }
