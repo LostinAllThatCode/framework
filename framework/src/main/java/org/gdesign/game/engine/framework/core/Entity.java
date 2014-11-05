@@ -35,6 +35,7 @@ public class Entity {
 
 	public Entity removeComponent(Class<? extends BaseComponent> type){
 		components.remove(this.getComponent(type));
+		world.changedEntity(this);
 		return this;
 	}
 	
