@@ -1,6 +1,16 @@
 package org.gdesign.game.engine.framework.core;
 
 public abstract class Manager implements IEntityObserver {
+	
+	private World world;
+	
+	public void setWorld(World world){
+		this.world = world;
+	}
+	
+	public World getWorld(){
+		return this.world;
+	}
 
 	public abstract void added(Entity e);
 

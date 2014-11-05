@@ -20,6 +20,7 @@ public abstract class BaseSystem implements IEntityObserver{
 		scope = new ArrayList<Class<? extends BaseComponent>>();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void setScope(Class<? extends BaseComponent>... type){
 		for (int i=0;i<type.length;i++){
 			scope.add(type[i]);
@@ -41,11 +42,11 @@ public abstract class BaseSystem implements IEntityObserver{
 	public abstract void end();
 	
 	public void added(Entity e) {
-		if (e.getComponentList(scope) != null) entities.put(e.id,e);
+		if (e.hasComponent((Class<?>[]) scope.toArray())) entities.put(e.id,e);
 	}
 	
 	public void changed(Entity e) {
-		if (e.getComponentList(scope) == null) entities.remove(e.id);
+		if (e.hasComponent((Class<?>[]) scope.toArray())) entities.remove(e.id);
 	}
 	
 	public void removed(Entity e) {
@@ -57,6 +58,6 @@ public abstract class BaseSystem implements IEntityObserver{
 	}
 	
 	public void enabled(Entity e) {
-		if (e.getComponentList(scope) != null) entities.put(e.id,e);
+		if (e.hasComponent((Class<?>[]) scope.toArray())) entities.put(e.id,e);
 	}
 }

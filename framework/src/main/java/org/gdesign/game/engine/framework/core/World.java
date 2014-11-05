@@ -1,7 +1,6 @@
 package org.gdesign.game.engine.framework.core;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 import org.gdesign.game.engine.framework.systems.BaseSystem;
@@ -11,7 +10,7 @@ public class World {
 	public float m_gravity = 9.8f;
 	
 	private float delta=0f;
-	private EntityManager entityManager;
+	private EntityManager em;
 	
 	private HashMap<Integer,Entity> added,changed,removed,enable,disable;
 	private ArrayList<BaseSystem> systems;
@@ -31,7 +30,12 @@ public class World {
 		
 		this.systems = new ArrayList<BaseSystem>();
 		this.managers = new ArrayList<Manager>();
-		this.managers.add(entityManager = new EntityManager());
+		
+		this.setManager(em = new EntityManager());
+	}
+	
+	public Entity createEntity(){
+		return em.createEntityInstance();
 	}
 	
 	public void addEntity(Entity e){
@@ -44,11 +48,10 @@ public class World {
 	
 	public void removeEntity(Entity e){
 		this.removed.put(e.id,e);
-		System.out.println("Removing entity: " + e);
 	}
 	
 	public void enableEntity(Entity e){
-		this.disable.put(e.id,e);;
+		this.disable.put(e.id,e);
 	}
 	
 	public void disableEntity(Entity e){
@@ -56,8 +59,21 @@ public class World {
 	}	
 	
 	public EntityManager getEntityManager(){
-		return entityManager;
+		return em;
 	}
+	
+	public <T extends Manager> T setManager(T manager){
+		managers.add(manager);
+		manager.setWorld(this);
+		return manager;
+	}
+
+    public <T extends BaseSystem> T getManager(Class<T> type) {
+		for (Manager m : managers){
+			if (m.getClass().equals(type)) return type.cast(m);
+		}
+		throw new NullPointerException("No Manager["+type.getSimpleName()+"] system available.");
+    }
 	
 	public <T extends BaseSystem> T setSystem(T system){
 		systems.add(system);
@@ -77,10 +93,6 @@ public class World {
     	for (BaseSystem system : systems) {
     		system.process();
     	}
-    }
-    
-    public Collection<Entity> getEntities(){
-    	return entityManager.getEntities();
     }
     
     private void updateObservers(){
