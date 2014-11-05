@@ -1,6 +1,7 @@
-package org.gdesign.game.engine.framework.core;
+package org.gdesign.game.ecs;
 
-public abstract class Manager implements IEntityObserver {
+
+public abstract class BaseManager implements EntityObserver {
 	
 	private World world;
 	

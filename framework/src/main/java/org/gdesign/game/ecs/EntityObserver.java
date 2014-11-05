@@ -1,6 +1,6 @@
-package org.gdesign.game.engine.framework.core;
+package org.gdesign.game.ecs;
 
-public interface IEntityObserver {
+public interface EntityObserver {
 	
     void added(Entity e);
     

@@ -1,9 +1,9 @@
-package org.gdesign.game.engine.framework.core;
+package org.gdesign.game.ecs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.gdesign.game.engine.framework.systems.BaseSystem;
+import org.gdesign.game.ecs.manager.EntityManager;
 
 public class World {
 
@@ -14,7 +14,7 @@ public class World {
 	
 	private HashMap<Integer,Entity> added,changed,removed,enable,disable;
 	private ArrayList<BaseSystem> systems;
-	private ArrayList<Manager> managers;
+	private ArrayList<BaseManager> managers;
 	
 	public World(){
 		this(9.8f);
@@ -29,7 +29,7 @@ public class World {
 		this.disable = new HashMap<Integer, Entity>();
 		
 		this.systems = new ArrayList<BaseSystem>();
-		this.managers = new ArrayList<Manager>();
+		this.managers = new ArrayList<BaseManager>();
 		
 		this.setManager(em = new EntityManager());
 	}
@@ -62,14 +62,14 @@ public class World {
 		return em;
 	}
 	
-	public <T extends Manager> T setManager(T manager){
+	public <T extends BaseManager> T setManager(T manager){
 		managers.add(manager);
 		manager.setWorld(this);
 		return manager;
 	}
 
     public <T extends BaseSystem> T getManager(Class<T> type) {
-		for (Manager m : managers){
+		for (BaseManager m : managers){
 			if (m.getClass().equals(type)) return type.cast(m);
 		}
 		throw new NullPointerException("No Manager["+type.getSimpleName()+"] system available.");
@@ -96,13 +96,13 @@ public class World {
     }
     
     private void updateObservers(){
-    	for (IEntityObserver observer : systems) {
+    	for (EntityObserver observer : systems) {
     		if (!added.isEmpty()) 	for (Entity entity : added.values()) observer.added(entity);
     		if (!removed.isEmpty()) for (Entity entity : removed.values()) observer.removed(entity);
     		if (!changed.isEmpty()) for (Entity entity : changed.values()) observer.changed(entity);
     	}
     	
-    	for (IEntityObserver observer : managers) {
+    	for (EntityObserver observer : managers) {
     		if (!added.isEmpty()) 	for (Entity entity : added.values()) observer.added(entity);
     		if (!removed.isEmpty()) for (Entity entity : removed.values()) observer.removed(entity);
     		if (!changed.isEmpty()) for (Entity entity : changed.values()) observer.changed(entity);

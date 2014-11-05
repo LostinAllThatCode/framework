@@ -1,16 +1,11 @@
-package org.gdesign.game.engine.framework.systems;
+package org.gdesign.game.ecs;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.gdesign.game.engine.framework.core.Entity;
-import org.gdesign.game.engine.framework.core.IEntityObserver;
-import org.gdesign.game.engine.framework.core.World;
-import org.gdesign.game.engine.framework.core.components.BaseComponent;
 
-
-public abstract class BaseSystem implements IEntityObserver{
+public abstract class BaseSystem implements EntityObserver{
 	protected World world;
 	protected HashMap<Integer,Entity> entities;
 	protected ArrayList<Class<? extends BaseComponent>> scope;
@@ -20,7 +15,6 @@ public abstract class BaseSystem implements IEntityObserver{
 		scope = new ArrayList<Class<? extends BaseComponent>>();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void setScope(Class<? extends BaseComponent>... type){
 		for (int i=0;i<type.length;i++){
 			scope.add(type[i]);

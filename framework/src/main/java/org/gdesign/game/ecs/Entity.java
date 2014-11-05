@@ -1,8 +1,6 @@
-package org.gdesign.game.engine.framework.core;
+package org.gdesign.game.ecs;
 
 import java.util.HashMap;
-
-import org.gdesign.game.engine.framework.core.components.BaseComponent;
 
 public class Entity {
 	private static int INDEX;

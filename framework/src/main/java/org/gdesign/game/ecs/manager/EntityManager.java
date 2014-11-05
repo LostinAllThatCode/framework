@@ -1,10 +1,13 @@
-package org.gdesign.game.engine.framework.core;
+package org.gdesign.game.ecs.manager;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class EntityManager extends Manager{
+import org.gdesign.game.ecs.BaseManager;
+import org.gdesign.game.ecs.Entity;
+
+public class EntityManager extends BaseManager{
 	
 	private int created,removed;
 	
