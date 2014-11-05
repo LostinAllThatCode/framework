@@ -36,11 +36,11 @@ public abstract class BaseSystem implements EntityObserver{
 	public abstract void end();
 	
 	public void added(Entity e) {
-		if (e.hasComponent((Class<?>[]) scope.toArray())) entities.put(e.id,e);
+		if (e.hasComponent(scope)) entities.put(e.id,e);
 	}
 	
 	public void changed(Entity e) {
-		if (e.hasComponent((Class<?>[]) scope.toArray())) entities.remove(e.id);
+		if (e.hasComponent(scope)) entities.remove(e.id);
 	}
 	
 	public void removed(Entity e) {
@@ -52,6 +52,6 @@ public abstract class BaseSystem implements EntityObserver{
 	}
 	
 	public void enabled(Entity e) {
-		if (e.hasComponent((Class<?>[]) scope.toArray())) entities.put(e.id,e);
+		if (e.hasComponent(scope)) entities.put(e.id,e);
 	}
 }

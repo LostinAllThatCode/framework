@@ -1,5 +1,6 @@
 package org.gdesign.game.ecs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Entity {
@@ -49,6 +50,14 @@ public class Entity {
 		}
 		return hasComponent;
 	}
+	
+	public boolean hasComponent(ArrayList<Class<? extends BaseComponent>> scope) {
+		boolean hasComponent = (scope.size() != 0);
+		for (Class<? extends BaseComponent> clazz : scope){
+			hasComponent &= components.containsKey(clazz);
+		}
+		return hasComponent;
+	}
 
 	public int getComponentCount(){
 		return components.size();
@@ -56,6 +65,8 @@ public class Entity {
 	
 	@Override
 	public String toString() {
-		return "[Type:"+ super.getClass().getSimpleName() + ", Id:"+this.id+", Components:"+components.size()+"]";
+		return "[Type:"+ super.getClass().getSimpleName() + ", Id:"+this.id+", Components:"+components+"]";
 	}
+
+
 }

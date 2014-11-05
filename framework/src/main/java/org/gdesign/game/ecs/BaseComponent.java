@@ -12,4 +12,9 @@ public abstract class BaseComponent {
 		return this.parent_id;
 	}
 	
+	@Override
+	public String toString() {
+		return "[ParentId:"+this.parent_id+" ,Type;"+this.getClass().getSimpleName()+"]";
+	}
+	
 }
