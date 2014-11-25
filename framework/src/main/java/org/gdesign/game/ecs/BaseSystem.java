@@ -24,6 +24,7 @@ public abstract class BaseSystem implements EntityObserver{
 	
 	public void setWorld(World w){
 		this.world = w;
+		this.initialize();
 	}
 	
 	public void process(){
@@ -36,28 +37,34 @@ public abstract class BaseSystem implements EntityObserver{
 	}
 	
 	public abstract boolean checkProcessing();
-
+	
+	protected void initialize() {};
+	
 	protected void begin(){};
 	public abstract void processEntities(Collection<Entity> collection);
 	protected void end(){};
 	
 	public void added(Entity e) {
-		if (e.hasComponent(scope)) entities.put(e.id,e);
+		if (e.hasComponent(scope) && e.isEnabled()) entities.put(e.getId(),e);
 	}
 	
 	public void changed(Entity e) {
-		if (e.hasComponent(scope)) entities.remove(e.id);
+		if (!e.hasComponent(scope) || e.isDisabled()) entities.remove(e.getId()); else entities.put(e.getId(),e);
 	}
 	
 	public void removed(Entity e) {
-		entities.remove(e.id);
+		entities.remove(e.getId());
 	}
 	
 	public void disabled(Entity e) {
-		entities.remove(e.id);
+		entities.remove(e.getId());
 	}
 	
 	public void enabled(Entity e) {
-		if (e.hasComponent(scope)) entities.put(e.id,e);
+		if (e.hasComponent(scope)) entities.put(e.getId(),e);
+	}
+	
+	public int getEntityCount(){
+		return entities.size();
 	}
 }

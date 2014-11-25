@@ -9,7 +9,7 @@ import org.gdesign.game.ecs.Entity;
 
 public class EntityManager extends BaseManager{
 	
-	private int created,removed;
+	private int active,created,removed;
 	
 	private HashMap<Integer,Entity> entities;
 		
@@ -19,7 +19,7 @@ public class EntityManager extends BaseManager{
 	
 	public Entity createEntityInstance() {
 		Entity e = new Entity(getWorld());
-		entities.put(e.id,e);
+		entities.put(e.getId(),e);
 		return e;
 	}
 		
@@ -40,7 +40,7 @@ public class EntityManager extends BaseManager{
 	}
 	
 	public int getActiveCount(){
-		return entities.size();
+		return active;
 	}
 	
 	public int getCreatedCount(){
@@ -53,18 +53,21 @@ public class EntityManager extends BaseManager{
 	
 	@Override
 	public void added(Entity e) {
+		active++;
 		created++;
-		entities.put(e.id,e);
+		entities.put(e.getId(),e);
 	}
 	
 	@Override
 	public void removed(Entity e) {
+		active--;
 		removed++;
-		entities.remove(e.id);	
+		entities.remove(e.getId());	
 	}
 
 	@Override
 	public void changed(Entity e) {
+		if (e.isDisabled()) active--; else active++;
 	}
 
 	@Override

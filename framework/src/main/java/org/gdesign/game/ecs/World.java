@@ -39,23 +39,24 @@ public class World {
 	}
 	
 	public void addEntity(Entity e){
-		this.added.put(e.id,e);
+		this.added.put(e.getId(),e);
 	}
 	
 	public void changedEntity(Entity e){
-		this.changed.put(e.id,e);
+		this.changed.put(e.getId(),e);
 	}
 	
 	public void removeEntity(Entity e){
-		this.removed.put(e.id,e);
+		this.removed.put(e.getId(),e);
 	}
 	
 	public void enableEntity(Entity e){
-		this.disable.put(e.id,e);
+		em.getEntity(e.getId()).disable(); // TODO: Change to .disable(), .enable()
+
 	}
 	
 	public void disableEntity(Entity e){
-		this.enable.put(e.id,e);
+		em.getEntity(e.getId()).disable();
 	}	
 	
 	public EntityManager getEntityManager(){
@@ -78,6 +79,7 @@ public class World {
 	public <T extends BaseSystem> T setSystem(T system){
 		systems.add(system);
 		system.setWorld(this);
+		system.initialize();
 		return system;
 	}
 	
@@ -88,6 +90,10 @@ public class World {
 		throw new NullPointerException("No BaseSystem["+type.getSimpleName()+"] system available.");
     }
     
+    public ArrayList<BaseSystem> getSystems(){
+    	return systems;
+    }
+    
     public void process(){
     	updateObservers();
     	for (BaseSystem system : systems) {
@@ -96,17 +102,18 @@ public class World {
     }
     
     private void updateObservers(){
+    	for (EntityObserver observer : managers) {
+    		if (!added.isEmpty()) 	for (Entity entity : added.values()) observer.added(entity);
+    		if (!removed.isEmpty()) for (Entity entity : removed.values()) observer.removed(entity);
+    		if (!changed.isEmpty()) for (Entity entity : changed.values()) observer.changed(entity);
+    	}
+    	
     	for (EntityObserver observer : systems) {
     		if (!added.isEmpty()) 	for (Entity entity : added.values()) observer.added(entity);
     		if (!removed.isEmpty()) for (Entity entity : removed.values()) observer.removed(entity);
     		if (!changed.isEmpty()) for (Entity entity : changed.values()) observer.changed(entity);
     	}
     	
-    	for (EntityObserver observer : managers) {
-    		if (!added.isEmpty()) 	for (Entity entity : added.values()) observer.added(entity);
-    		if (!removed.isEmpty()) for (Entity entity : removed.values()) observer.removed(entity);
-    		if (!changed.isEmpty()) for (Entity entity : changed.values()) observer.changed(entity);
-    	}
     	clean();
     }
     

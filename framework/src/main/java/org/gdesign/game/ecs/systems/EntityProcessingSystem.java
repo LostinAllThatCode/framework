@@ -5,9 +5,9 @@ import java.util.Collection;
 import org.gdesign.game.ecs.BaseSystem;
 import org.gdesign.game.ecs.Entity;
 
-public abstract class EntityProcessingSytem extends BaseSystem {
+public abstract class EntityProcessingSystem extends BaseSystem {
 
-	protected abstract void process(Entity e);
+	protected abstract void process(Entity entity);
 	
 	@Override
 	public boolean checkProcessing() {
