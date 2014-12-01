@@ -47,7 +47,6 @@ public class Entity {
 	 */
 	public Entity addComponent(BaseComponent c){
 		components.put(c.getClass(), c);
-		c.setParent(id);
 		return this;
 	}
 	
@@ -78,9 +77,7 @@ public class Entity {
 	 * @throws NullPointerException
 	 */
 	public <T extends BaseComponent> T getComponent(Class<T> type) throws NullPointerException{
-		Object obj = components.get(type);
-		if (obj == null) throw new NullPointerException(type.getSimpleName() + " not found.");
-		else return type.cast(obj);
+		return type.cast(components.get(type));
 	}
 	
 	/**
@@ -162,7 +159,7 @@ public class Entity {
 	 * Destroys entity with all components and deletes entity from all systems/managers/worlds.
 	 */
 	public void destroy(){
-		components.clear();
+		//components.clear();
 		world.removeEntity(this);
 	}
 
@@ -172,6 +169,5 @@ public class Entity {
 		for(BaseComponent c : components.values()) comps += c.getClass().getSimpleName() + ", ";
 		return "[Type:"+ super.getClass().getSimpleName() + ", Id:"+id+", Components:"+comps+"]";
 	}
-
 
 }

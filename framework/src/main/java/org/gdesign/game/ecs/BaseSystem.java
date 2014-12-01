@@ -33,7 +33,6 @@ public abstract class BaseSystem implements EntityObserver{
 			processEntities(entities.values());
 			end();
 		}
-
 	}
 	
 	public abstract boolean checkProcessing();

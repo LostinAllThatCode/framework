@@ -12,7 +12,7 @@ public class World {
 	private float delta=0f;
 	private EntityManager em;
 	
-	private HashMap<Integer,Entity> added,changed,removed,enable,disable;
+	private HashMap<Integer,Entity> added,changed,removed;	//,enable,disable;
 	private ArrayList<BaseSystem> systems;
 	private ArrayList<BaseManager> managers;
 	
@@ -25,9 +25,10 @@ public class World {
 		this.added = new HashMap<Integer, Entity>();
 		this.changed = new HashMap<Integer, Entity>();
 		this.removed = new HashMap<Integer, Entity>();
+		/*
 		this.enable = new HashMap<Integer, Entity>();
 		this.disable = new HashMap<Integer, Entity>();
-		
+		*/
 		this.systems = new ArrayList<BaseSystem>();
 		this.managers = new ArrayList<BaseManager>();
 		
@@ -51,7 +52,7 @@ public class World {
 	}
 	
 	public void enableEntity(Entity e){
-		em.getEntity(e.getId()).disable(); // TODO: Change to .disable(), .enable()
+		em.getEntity(e.getId()).enable();
 
 	}
 	
@@ -79,7 +80,6 @@ public class World {
 	public <T extends BaseSystem> T setSystem(T system){
 		systems.add(system);
 		system.setWorld(this);
-		system.initialize();
 		return system;
 	}
 	
@@ -96,9 +96,7 @@ public class World {
     
     public void process(){
     	updateObservers();
-    	for (BaseSystem system : systems) {
-    		system.process();
-    	}
+    	for (BaseSystem system : systems) system.process();
     }
     
     private void updateObservers(){

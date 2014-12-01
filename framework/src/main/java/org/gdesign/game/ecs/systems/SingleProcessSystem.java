@@ -5,9 +5,11 @@ import java.util.Collection;
 import org.gdesign.game.ecs.BaseSystem;
 import org.gdesign.game.ecs.Entity;
 
-public abstract class EntityProcessingSystem extends BaseSystem {
-
-	protected abstract void process(Entity entity);
+public abstract class SingleProcessSystem extends BaseSystem {
+	
+	
+	
+	public abstract void processSystem();
 	
 	@Override
 	public boolean checkProcessing() {
@@ -16,7 +18,8 @@ public abstract class EntityProcessingSystem extends BaseSystem {
 
 	@Override
 	public void processEntities(Collection<Entity> collection) {
-		for (Entity entity : collection) process(entity);
+		processSystem();
 	}
+
 
 }
