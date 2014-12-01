@@ -1,11 +1,11 @@
-package org.gdesign.game.ecs.manager;
+package org.gdesign.games.ecs.managers;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.gdesign.game.ecs.BaseManager;
-import org.gdesign.game.ecs.Entity;
+import org.gdesign.games.ecs.BaseManager;
+import org.gdesign.games.ecs.Entity;
 
 public class EntityManager extends BaseManager{
 	

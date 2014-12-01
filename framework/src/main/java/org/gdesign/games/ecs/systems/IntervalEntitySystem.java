@@ -1,6 +1,6 @@
-package org.gdesign.game.ecs.systems;
+package org.gdesign.games.ecs.systems;
 
-import org.gdesign.game.ecs.BaseSystem;
+import org.gdesign.games.ecs.BaseSystem;
 
 public abstract class IntervalEntitySystem extends BaseSystem {
 	

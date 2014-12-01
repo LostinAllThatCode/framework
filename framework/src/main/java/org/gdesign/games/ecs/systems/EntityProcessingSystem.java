@@ -1,9 +1,9 @@
-package org.gdesign.game.ecs.systems;
+package org.gdesign.games.ecs.systems;
 
 import java.util.Collection;
 
-import org.gdesign.game.ecs.BaseSystem;
-import org.gdesign.game.ecs.Entity;
+import org.gdesign.games.ecs.BaseSystem;
+import org.gdesign.games.ecs.Entity;
 
 public abstract class EntityProcessingSystem extends BaseSystem {
 

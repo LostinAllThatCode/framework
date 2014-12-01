@@ -1,9 +1,9 @@
-package org.gdesign.game.ecs;
+package org.gdesign.games.ecs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.gdesign.game.ecs.manager.EntityManager;
+import org.gdesign.games.ecs.managers.EntityManager;
 
 public class World {
 

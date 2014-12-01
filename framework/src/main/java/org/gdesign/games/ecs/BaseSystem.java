@@ -1,4 +1,4 @@
-package org.gdesign.game.ecs;
+package org.gdesign.games.ecs;
 
 import java.util.ArrayList;
 import java.util.Collection;
