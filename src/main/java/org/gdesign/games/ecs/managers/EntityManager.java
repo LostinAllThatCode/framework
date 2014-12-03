@@ -67,15 +67,17 @@ public class EntityManager extends BaseManager{
 
 	@Override
 	public void changed(Entity e) {
-		if (e.isDisabled()) active--; else active++;
+		
 	}
 
 	@Override
 	public void enabled(Entity e) {
+		active--;
 	}
 
 	@Override
 	public void disabled(Entity e) {
+		active++;
 	}
 
 

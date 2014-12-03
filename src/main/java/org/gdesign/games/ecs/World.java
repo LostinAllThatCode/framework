@@ -70,11 +70,11 @@ public class World {
 		return manager;
 	}
 
-    public <T extends BaseSystem> T getManager(Class<T> type) {
+    public <T extends BaseManager> T getManager(Class<T> manager) {
 		for (BaseManager m : managers){
-			if (m.getClass().equals(type)) return type.cast(m);
+			if (m.getClass().equals(manager)) return manager.cast(m);
 		}
-		throw new NullPointerException("No Manager["+type.getSimpleName()+"] system available.");
+		throw new NullPointerException("No Manager["+manager.getSimpleName()+"] system available.");
     }
 	
 	public <T extends BaseSystem> T setSystem(T system){
@@ -87,7 +87,7 @@ public class World {
 		for (BaseSystem s : systems){
 			if (s.getClass().equals(type)) return type.cast(s);
 		}
-		throw new NullPointerException("No BaseSystem["+type.getSimpleName()+"] system available.");
+		throw new NullPointerException("No "+type.getSimpleName()+" system in world.");
     }
     
     public ArrayList<BaseSystem> getSystems(){

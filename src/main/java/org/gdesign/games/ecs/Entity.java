@@ -123,6 +123,10 @@ public class Entity {
 		return components.size();
 	}
 	
+	public World getWorld(){
+		return world;
+	}
+	
 	/**
 	 * Enables entity for all managers and systems. (Enabled by default)	
 	 */
@@ -159,8 +163,7 @@ public class Entity {
 	 * Destroys entity with all components and deletes entity from all systems/managers/worlds.
 	 */
 	public void destroy(){
-		//components.clear();
-		world.removeEntity(this);
+		if (world.getEntityManager().getEntity(this.id) != null) world.removeEntity(this);
 	}
 
 	@Override
