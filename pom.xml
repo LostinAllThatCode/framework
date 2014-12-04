@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.gdesign.game.engine</groupId>
   <artifactId>gdesign-ecs</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
   <name>gdesign-ecs</name>
   <description>java based entity system framework</description>
 </project>

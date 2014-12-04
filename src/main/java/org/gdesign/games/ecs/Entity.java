@@ -3,6 +3,7 @@ package org.gdesign.games.ecs;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class Entity {
 	private static int INDEX;
@@ -10,6 +11,7 @@ public class Entity {
 	private HashMap<Class<? extends BaseComponent>, BaseComponent> components;
 	private World world;
 	private int id;
+	private UUID uuid;
 	private boolean disabled;
 	
 	/** 
@@ -21,6 +23,7 @@ public class Entity {
 		this.world = world;
 		this.components = new HashMap<Class<? extends BaseComponent>, BaseComponent>();
 		this.disabled = false;
+		this.uuid = UUID.randomUUID();
 	}
 	
 	/**
@@ -166,11 +169,15 @@ public class Entity {
 		if (world.getEntityManager().getEntity(this.id) != null) world.removeEntity(this);
 	}
 
+	public UUID getUUID(){
+		return uuid;
+	}
+	
 	@Override
 	public String toString() {
 		String comps = "";
 		for(BaseComponent c : components.values()) comps += c.getClass().getSimpleName() + ", ";
-		return "[Type:"+ super.getClass().getSimpleName() + ", Id:"+id+", Components:"+comps+"]";
+		return "[Type:"+ super.getClass().getSimpleName() + ", Id:"+id+"("+uuid+"), Components:"+comps+"]";
 	}
 
 }

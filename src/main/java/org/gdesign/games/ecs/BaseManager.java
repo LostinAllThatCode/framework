@@ -3,15 +3,19 @@ package org.gdesign.games.ecs;
 
 public abstract class BaseManager implements EntityObserver {
 	
-	private World world;
+	protected World world;
 	
-	public void setWorld(World world){
+	
+	protected void setWorld(World world){
 		this.world = world;
+		this.initialize();
 	}
 	
 	public World getWorld(){
 		return this.world;
 	}
+	
+	protected void initialize() {};
 
 	public abstract void added(Entity e);
 
