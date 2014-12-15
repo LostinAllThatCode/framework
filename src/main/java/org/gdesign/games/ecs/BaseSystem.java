@@ -48,6 +48,7 @@ public abstract class BaseSystem implements EntityObserver{
 	}
 	
 	public void changed(Entity e) {
+		if (e.isDisabled()) disabled(e); else enabled(e);
 		if (!e.hasComponent(scope) || e.isDisabled()) entities.remove(e.getId()); else entities.put(e.getId(),e);
 	}
 	
@@ -55,13 +56,9 @@ public abstract class BaseSystem implements EntityObserver{
 		entities.remove(e.getId());
 	}
 	
-	public void disabled(Entity e) {
-		entities.remove(e.getId());
-	}
+	public void disabled(Entity e) {}
 	
-	public void enabled(Entity e) {
-		if (e.hasComponent(scope)) entities.put(e.getId(),e);
-	}
+	public void enabled(Entity e) {}
 	
 	public int getEntityCount(){
 		return entities.size();

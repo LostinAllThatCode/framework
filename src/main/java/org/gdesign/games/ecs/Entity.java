@@ -2,13 +2,13 @@ package org.gdesign.games.ecs;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.UUID;
 
 public class Entity {
 	private static int INDEX;
 	
-	private HashMap<Class<? extends BaseComponent>, BaseComponent> components;
+	private LinkedHashMap<Class<? extends BaseComponent>, BaseComponent> components;
 	private World world;
 	private int id;
 	private UUID uuid;
@@ -21,7 +21,7 @@ public class Entity {
 	public Entity(World world){
 		this.id = ++INDEX;
 		this.world = world;
-		this.components = new HashMap<Class<? extends BaseComponent>, BaseComponent>();
+		this.components = new LinkedHashMap<Class<? extends BaseComponent>, BaseComponent>();
 		this.disabled = false;
 		this.uuid = UUID.randomUUID();
 	}
@@ -176,8 +176,8 @@ public class Entity {
 	@Override
 	public String toString() {
 		String comps = "";
-		for(BaseComponent c : components.values()) comps += c.getClass().getSimpleName() + ", ";
-		return "[Type:"+ super.getClass().getSimpleName() + ", Id:"+id+"("+uuid+"), Components:"+comps+"]";
+		for(BaseComponent c : components.values()) comps += c.getClass().getSimpleName() + ":" + c + ",";
+		return "entity[Id:"+id+","+comps+"] "+"{"+uuid+"}";
 	}
 
 }
